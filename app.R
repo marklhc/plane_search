@@ -127,10 +127,8 @@ server <- function(input, output) {
     ggplot(tibble(x = grid, dens = prior_probs()), 
            aes(x = x, y = dens)) + 
       geom_line() + 
-      theme(axis.text.x = element_blank(), 
-            axis.title.x = element_blank()) + 
-      labs(y = "Prior probability") + 
-      xlim(0, 1)
+      labs(x = "location (theta)", y = "Prior probability") + 
+      scale_x_continuous(breaks = c(0, 1), labels = c("West", "East"))
   })
   
   output$likliPlot <- renderPlot({
@@ -139,10 +137,8 @@ server <- function(input, output) {
     ggplot(tibble(x = grid, dens = v$lik), 
            aes(x = x, y = dens)) + 
       geom_line() + 
-      theme(axis.text.x = element_blank(), 
-            axis.title.x = element_blank()) + 
-      labs(y = "Likelihood (Scaled)") + 
-      xlim(0, 1)
+      labs(x = "location (theta)", y = "Likelihood (Scaled)") + 
+      scale_x_continuous(breaks = c(0, 1), labels = c("West", "East"))
     if (!is.null(v$data)) {
       lik_p <- lik_p + 
         geom_point(data = tibble(x = v$data), aes(x = x), y = 0, 
@@ -161,10 +157,8 @@ server <- function(input, output) {
                ymin = -Inf, 
                ymax = Inf, col = "red", 
                fill = "red", alpha = 0.1) + 
-      theme(axis.text.x = element_blank(), 
-            axis.title.x = element_blank()) + 
-      labs(y = "Density") + 
-      xlim(0, 1)
+      labs(x = "location (theta)", y = "Density") + 
+      scale_x_continuous(breaks = c(0, 1), labels = c("West", "East"))
     if (input$show) {
       post_p <- post_p + 
         geom_point(x = true_loc, y = 0, col = "red")
